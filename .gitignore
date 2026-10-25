@@ -1,0 +1,27 @@
+# Временные файлы текстовых редакторов и MS Office
+~$*.docx
+~$*.xlsx
+~$*.pptx
+*.tmp
+*.temp
+
+# Операционная система
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE и редакторы
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Среда разработки Python и Node.js
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+node_modules/
+dist/
+build/

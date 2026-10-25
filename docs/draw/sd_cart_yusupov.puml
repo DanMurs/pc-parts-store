@@ -1,0 +1,36 @@
+@startuml
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam roundcorner 5
+
+title sd Добавление товара в корзину
+
+participant "Гость / Покупатель" as User
+participant ":Система" as System
+
+activate User
+User -> System: 1. Нажать кнопку "Добавить в корзину" на карточке
+activate System
+System -->> User: 2. Запрос принят, проверка доступности товара
+deactivate System
+
+User -> System: 3. Передать идентификатор товара и количество
+activate System
+System -->> User: 4. Данные получены, запущен процесс обработки
+deactivate System
+
+alt отсутствует на складе (остаток равен нулю - A1)
+    activate System
+    System -->> User: 4а. Сообщение: "Товар временно отсутствует. Добавьте в список ожидания"\nТовар в корзину не добавлен
+    deactivate System
+else лимит количества товара в корзине (более 10 шт - A2)
+    activate System
+    System -->> User: 4б. Сообщение: "Достигнуто максимальное количество товара в корзине"\nКоличество товара не увеличено
+    deactivate System
+else в наличии и лимиты не превышены (Основной поток)
+    activate System
+    System -->> User: 4в. Уведомление: "Товар добавлен в корзину", обновление счётчика в шапке\nКорзина успешно сохранена (в cookie или базу данных)
+    deactivate System
+end
+deactivate User
+@enduml

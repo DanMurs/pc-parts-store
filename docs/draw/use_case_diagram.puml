@@ -1,0 +1,52 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam roundcorner 5
+
+actor "Гость" as Guest
+actor "Покупатель" as Buyer
+actor "Менеджер" as Manager
+actor "Администратор" as Admin
+
+actor "«External»\nСистема email-уведомлений" as EmailSys
+actor "«External»\nПлатёжная система" as PaySys
+
+Buyer --|> Guest
+
+rectangle "Интернет-магазин комплектующих для ПК" {
+    usecase "UC-01: Регистрация пользователя" as UC1
+    usecase "UC-02: Подтвердить email" as UC2
+    usecase "UC-03: Авторизация пользователя" as UC3
+    usecase "UC-04: Просмотр каталога и фильтрация товаров" as UC4
+    usecase "UC-05: Добавление товара в корзину" as UC5
+    usecase "UC-06: Оформление заказа" as UC6
+    usecase "UC-07: Применение промокода" as UC7
+    usecase "UC-08: Просмотр истории заказов в ЛК" as UC8
+    usecase "UC-09: Управление карточками товаров" as UC9
+    usecase "UC-10: Управление заказами" as UC10
+    usecase "UC-11: Импорт товаров из CSV/XLSX" as UC11
+    
+    UC1 .> UC2 : <<include>>
+    UC7 .> UC6 : <<extend>>\n(если есть промокод)
+}
+
+Guest --> UC1
+UC2 --> EmailSys
+
+Buyer --> UC3
+Guest --> UC4
+Guest --> UC5
+
+Guest --> UC6
+Buyer --> UC8
+
+UC6 --> PaySys
+UC6 --> EmailSys
+
+Manager --> UC9
+Manager --> UC10
+UC10 --> EmailSys
+
+Admin --> UC9
+Admin --> UC11
+@enduml
